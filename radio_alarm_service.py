@@ -41,7 +41,7 @@ class RadioAlarmService:
                 # if serial data available
                 if self.serial.inWaiting():
                     # read until stop byte
-                    message = self.serial.read_until(b'\x00').decode('iso_8859_1', 'ignore')  # bytes decoded to str
+                    message = self.serial.read_until(b'\x00').decode('iso_8859_1')  # bytes decoded to str
                     self.log(message)
                     self.alarm.add(message)
 
@@ -87,7 +87,7 @@ class Alarm:
             self.data['object'] = text[2].strip()
             self.data['sub_object'] = text[3].strip()
             self.data['street'] = address[0].strip()
-            self.data['house_number'] = address[1] if len(address) > 0 else None,
+            self.data['house_number'] = address[1].strip() if len(address) > 0 else None
             self.data['quarter'] = text[7].strip()
             self.data['city'] = text[8].strip()
             self.data['place'] = text[9].strip()
