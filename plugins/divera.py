@@ -18,10 +18,10 @@ class Plugin:
             "text": alarm_data['text'],
             "address": self.get_address(alarm_data),
             "ric": ','.join(alarm_data['ric_list']),
-            "accesskey": api_key,
+            "accesskey": api_key
         }
 
-        print(json.dumps(data, ensure_ascii=False))
+        # print(json.dumps(data, ensure_ascii=False))
 
         resp = requests.post(url, headers=headers, data=json.dumps(data))
         print(resp.status_code)
