@@ -9,7 +9,7 @@ import configparser
 class RadioAlarmService:
     def __init__(self):
         self.config = configparser.ConfigParser()
-        self.config.read(os.path.abspath('config/config.ini'))
+        self.config.read(os.path.join(os.path.dirname(__file__), 'config/config.ini'))
         self.plugins = []
         self.serial = None
         self.set_plugins()
@@ -56,7 +56,7 @@ class RadioAlarmService:
 
     @staticmethod
     def log(message):
-        f = open(os.path.abspath('logs/message.log'), 'a')
+        f = open(os.path.join(os.path.dirname(__file__), 'logs/message.log'), 'a')
         f.write('{0}: {1}\n'.format(datetime.now(), message))
         f.close()
 
