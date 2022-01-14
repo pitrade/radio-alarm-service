@@ -38,9 +38,9 @@ class RadioAlarmService:
     def run(self):
         try:
             while self.serial.isOpen():
-                # if serial data available
-                if self.serial.inWaiting():
-                    # read until stop byte
+                # if serial data available or alarm data empty
+                if self.serial.inWaiting() or not self.alarm.data:
+                    # read until stop byte (blocks process)
                     message = self.serial.read_until(b'\x00').decode('iso_8859_1')  # bytes decoded to str
                     self.log(message)
                     self.alarm.add(message)
@@ -50,7 +50,7 @@ class RadioAlarmService:
                     self.process_plugins()
                     self.alarm = Alarm()
 
-                time.sleep(0.100)
+                time.sleep(0.010)
         except serial.SerialException as e:
             self.serial.close()
 
