@@ -29,5 +29,5 @@ class Plugin:
 
     @staticmethod
     def get_address(alarm_data):
-        return '{0} {1}, {2}'.format(alarm_data['street'], alarm_data['house_number'], alarm_data['city'])
+        return '{0} {1} {2}'.format(alarm_data['street'], alarm_data['house_number'], alarm_data['quarter'])
 
