@@ -71,6 +71,8 @@ class Alarm:
         self.last_update = None
 
     def add(self, message):
+        # message = message.replace('/', ' #, B1, Fw Adelheidsdorf, , Schulstraße 13,  ,         , Adelheidsdorf, Adelheidsdorf, , testtest test,')
+        message = message.replace('/', '')
         self.last_update = datetime.now()
         lines = message.splitlines()  # lines[0] is empty
         t = lines[3].split(": #")
