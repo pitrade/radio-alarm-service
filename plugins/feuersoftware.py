@@ -36,7 +36,7 @@ class Plugin:
             ]
         }
 
-        print(json.dumps(data, ensure_ascii=False))
+        # print(json.dumps(data, ensure_ascii=False))
 
         resp = requests.post(url, headers=headers, data=json.dumps(data))
         print(resp.status_code)
