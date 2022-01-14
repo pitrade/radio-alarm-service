@@ -4,12 +4,13 @@ import os.path
 from datetime import datetime
 import importlib
 import configparser
+from pathlib import Path
 
 
 class RadioAlarmService:
     def __init__(self):
         self.config = configparser.ConfigParser()
-        self.config.read('config/config.ini')
+        self.config.read(os.path.abspath('config/config.ini'))
         self.plugins = []
         self.serial = None
         self.set_plugins()
@@ -56,7 +57,7 @@ class RadioAlarmService:
 
     @staticmethod
     def log(message):
-        f = open('logs/message.log', 'a')
+        f = open(os.path.abspath('logs/message.log'), 'a')
         f.write('{0}: {1}\n'.format(datetime.now(), message))
         f.close()
 
@@ -71,7 +72,6 @@ class Alarm:
         self.last_update = None
 
     def add(self, message):
-        # message = message.replace('/', ' #, B1, Fw Adelheidsdorf, , Schulstraße 13,  ,         , Adelheidsdorf, Adelheidsdorf, , testtest test,')
         message = message.replace('/', '')
         self.last_update = datetime.now()
         lines = message.splitlines()  # lines[0] is empty
