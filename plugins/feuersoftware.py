@@ -25,7 +25,7 @@ class Plugin:
             "Address": {
                 "Street": alarm_data['street'],
                 "HouseNumber": alarm_data['house_number'],
-                "City": alarm_data['city'],
+                "City": alarm_data['city'] if alarm_data['city'] else config['Feuersoftware']['default_city'],
                 "District": alarm_data['quarter']
             },
             "Properties": [
