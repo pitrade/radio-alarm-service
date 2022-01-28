@@ -30,7 +30,7 @@ class Plugin:
             },
             "Properties": [
                 {
-                    "Key": "RicNames",
+                    "Key": "Alarmierte RICs",
                     "Value": ','.join(alarm_data['ric_name_list'])
                 }
             ]
