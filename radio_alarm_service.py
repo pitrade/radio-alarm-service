@@ -115,10 +115,4 @@ class Alarm:
                 self.data['info'] = text[11].strip()
 
         self.data['ric_list'].append(lines[2].strip())
-        self.data['ric_name_list'].append(self.remove_suffix(self.remove_suffix(t[0], '/'), ':'))
-
-    @staticmethod
-    def remove_suffix(text, suffix):
-        if suffix and text.endswith(suffix):
-            return text[:-len(suffix)]
-        return text
+        self.data['ric_name_list'].append(t[0].rstrip(':/'))
