@@ -19,7 +19,7 @@ class Plugin:
             "Start": alarm_data['datetime'].isoformat(),
             "Status": "new",
             "AlarmEnabled": "true",
-            "Keyword": alarm_data['keyword'],
+            "Keyword": alarm_data['keyword'] if alarm_data['keyword'] else 'Info',
             "Facts": alarm_data['text'],
             "Ric": ','.join(alarm_data['ric_list']),
             "Address": {
