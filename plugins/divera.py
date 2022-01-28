@@ -15,7 +15,7 @@ class Plugin:
         headers["Content-Type"] = "application/json"
 
         data = {
-            "title": alarm_data['keyword'] if 'keyword' in alarm_data else 'Info',
+            "title": alarm_data['keyword'] if alarm_data['keyword'] else 'Info',
             "text": alarm_data['text'],
             "address": self.get_address(alarm_data),
             "ric": ','.join(alarm_data['ric_list']),
@@ -24,7 +24,7 @@ class Plugin:
 
         # print(json.dumps(data, ensure_ascii=False))
 
-        resp = requests.post(url_alarm if 'keyword' in alarm_data else url_news, headers=headers, data=json.dumps(data))
+        resp = requests.post(url_alarm if alarm_data['keyword'] else url_news, headers=headers, data=json.dumps(data))
         print(resp.status_code)
         print(resp.content)
 
