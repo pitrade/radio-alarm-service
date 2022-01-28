@@ -30,8 +30,6 @@ class Plugin:
 
     @staticmethod
     def get_address(alarm_data):
-        if 'quarter' in alarm_data:
-            return '{0} {1} {2}'.format(alarm_data['street'], alarm_data['house_number'], alarm_data['quarter'])
-        else:
-            return ''
+        a = [alarm_data['street'], alarm_data['house_number'], alarm_data['quarter']]
+        return ' '.join(filter(None, a))
 
