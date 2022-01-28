@@ -71,30 +71,39 @@ class Alarm:
         self.last_update = None
 
     def add(self, message):
-        message = message.replace('/', '')
         self.last_update = datetime.now()
         lines = message.splitlines()  # lines[0] is empty
-        t = lines[3].split(": #")
+        t = lines[3].split(" ", 1)
         text = t[1].split(",", 11)  # text[6] = ?
-        address = text[4].strip().split(' ', 1)
 
         if not self.data:
             self.data['created_at'] = datetime.now()
             self.data['datetime'] = datetime.strptime(lines[1], '%H:%M %d.%m.%y')
             self.data['ric_list'] = []
             self.data['ric_name_list'] = []
-            self.data['keyword'] = text[1].strip()
-            self.data['object_number'] = text[0].strip()
-            self.data['object'] = text[2].strip()
-            self.data['sub_object'] = text[3].strip()
-            self.data['street'] = address[0].strip()
-            self.data['house_number'] = address[1].strip() if len(address) > 0 else None
-            self.data['quarter'] = text[7].strip()
-            self.data['city'] = text[8].strip()
-            self.data['place'] = text[9].strip()
-            self.data['route'] = text[5].strip()
-            self.data['text'] = text[10].strip()
-            self.data['info'] = text[11].strip()
+
+            if len(text) < 12:
+                self.data['text'] = t[1].strip()
+            else:
+                address = text[4].strip().split(' ', 1)
+                self.data['keyword'] = text[1].strip()
+                self.data['object_number'] = text[0].strip()
+                self.data['object'] = text[2].strip()
+                self.data['sub_object'] = text[3].strip()
+                self.data['street'] = address[0].strip()
+                self.data['house_number'] = address[1].strip() if len(address) > 1 else None
+                self.data['quarter'] = text[7].strip()
+                self.data['city'] = text[8].strip()
+                self.data['place'] = text[9].strip()
+                self.data['route'] = text[5].strip()
+                self.data['text'] = text[10].strip()
+                self.data['info'] = text[11].strip()
 
         self.data['ric_list'].append(lines[2].strip())
-        self.data['ric_name_list'].append(t[0].strip())
+        self.data['ric_name_list'].append(self.remove_suffix(self.remove_suffix(t[0], '/'), ':'))
+
+    @staticmethod
+    def remove_suffix(text, suffix):
+        if suffix and text.endswith(suffix):
+            return text[:-len(suffix)]
+        return text
