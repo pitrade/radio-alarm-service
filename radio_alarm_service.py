@@ -30,10 +30,12 @@ class RadioAlarmService:
         self.serial.bytesize = serial.EIGHTBITS
         self.serial.timeout = None
 
-        if os.path.exists(self.serial.port):
-            print('Serial Port {0} exists.'.format(self.serial.port))
-            self.serial.open()
-            print('Serial Port {0} is open.'.format(self.serial.name))
+        # sleep until port exists
+        while not os.path.exists(self.serial.port):
+            time.sleep(1)
+
+        self.serial.open()
+        print('Serial Port {0} is open.'.format(self.serial.name))
 
     def run(self):
         try:
@@ -53,6 +55,10 @@ class RadioAlarmService:
                 time.sleep(0.010)
         except serial.SerialException as e:
             self.serial.close()
+            print('Serial Port {0} is closed.'.format(self.serial.name))
+            self.set_serial()
+            self.run()
+
 
     @staticmethod
     def log(message):
