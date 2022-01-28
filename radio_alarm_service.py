@@ -81,17 +81,32 @@ class Alarm:
             self.data['datetime'] = datetime.strptime(lines[1], '%H:%M %d.%m.%y')
             self.data['ric_list'] = []
             self.data['ric_name_list'] = []
+            self.data['keyword'] = None
+            self.data['object_number'] = None
+            self.data['object'] = None
+            self.data['sub_object'] = None
+            self.data['street'] = None
+            self.data['house_number'] = None
+            self.data['quarter'] = None
+            self.data['city'] = None
+            self.data['place'] = None
+            self.data['route'] = None
+            self.data['text'] = None
+            self.data['info'] = None
 
             if len(text) < 12:
+                # message is info
                 self.data['text'] = t[1].strip()
             else:
+                # message is alarm
                 address = text[4].strip().split(' ', 1)
                 self.data['keyword'] = text[1].strip()
                 self.data['object_number'] = text[0].strip()
                 self.data['object'] = text[2].strip()
                 self.data['sub_object'] = text[3].strip()
                 self.data['street'] = address[0].strip()
-                self.data['house_number'] = address[1].strip() if len(address) > 1 else None
+                if len(address) > 1:
+                    self.data['house_number'] = address[1].strip()
                 self.data['quarter'] = text[7].strip()
                 self.data['city'] = text[8].strip()
                 self.data['place'] = text[9].strip()
