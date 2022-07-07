@@ -79,8 +79,6 @@ class Alarm:
     def add(self, message):
         self.last_update = datetime.now()
         lines = message.splitlines()  # lines[0] is empty
-        t = lines[3].split(" ", 1)
-        text = t[1].split(",", 11)  # text[6] = ?
 
         if not self.data:
             self.data['created_at'] = datetime.now()
@@ -100,11 +98,13 @@ class Alarm:
             self.data['text'] = None
             self.data['info'] = None
 
-            if len(text) < 12:
+            t = lines[3].split(":/", 1)
+            if len(t) <= 1 or t[1].count(',') < 11:
                 # message is info
-                self.data['text'] = t[1].strip()
+                self.data['text'] = t[0].strip()
             else:
                 # message is alarm
+                text = t[1].split(",", 11)  # text[6] = ?
                 address = text[4].strip().split(' ', 1)
                 self.data['keyword'] = text[1].strip()
                 self.data['object_number'] = text[0].strip()
@@ -121,4 +121,4 @@ class Alarm:
                 self.data['info'] = text[11].strip()
 
         self.data['ric_list'].append(lines[2].strip())
-        self.data['ric_name_list'].append(t[0].rstrip(':/'))
+        self.data['ric_name_list'].append(t[0])
