@@ -15,12 +15,16 @@ class Plugin:
         headers["Authorization"] = "Bearer " + api_key
         headers["Content-Type"] = "application/json"
 
+        text = alarm_data['text']
+        if 'info' in alarm_data:
+            text += ', ' + alarm_data['info'].rstrip(',')
+
         data = {
             "Start": alarm_data['datetime'].isoformat(),
             "Status": "new",
             "AlarmEnabled": "true",
             "Keyword": alarm_data['keyword'] if alarm_data['keyword'] else 'Info',
-            "Facts": alarm_data['text'],
+            "Facts": text,
             "Ric": ','.join(alarm_data['ric_list']),
             "Address": {
                 "Street": alarm_data['street'],

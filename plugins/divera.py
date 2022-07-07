@@ -14,9 +14,13 @@ class Plugin:
         headers = CaseInsensitiveDict()
         headers["Content-Type"] = "application/json"
 
+        text = alarm_data['text']
+        if 'info' in alarm_data:
+            text += ', ' + alarm_data['info'].rstrip(',')
+
         data = {
             "title": alarm_data['keyword'] if alarm_data['keyword'] else 'Info',
-            "text": alarm_data['text'],
+            "text": text,
             "address": self.get_address(alarm_data),
             "ric": ','.join(alarm_data['ric_list']),
             "accesskey": api_key
